@@ -14,11 +14,16 @@ const ProjectListing = () => {
       .then((response) => {
         setTable(response.data);
         setFilteredTable(response.data);
-        const initialStatus = response.data.reduce((acc, project, index) => {
-          acc[index] = "Registered";
-          return acc;
-        }, {});
-        setStatus(initialStatus);
+        const savedStatus = JSON.parse(localStorage.getItem("projectStatus"));
+        if (savedStatus) {
+          setStatus(savedStatus);
+        } else {
+          const initialStatus = response.data.reduce((acc, project, index) => {
+            acc[index] = "Registered";
+            return acc;
+          }, {});
+          setStatus(initialStatus);
+        }
       })
       .catch((error) => {
         console.error("There was an error fetching the projects!", error);
@@ -26,10 +31,12 @@ const ProjectListing = () => {
   }, []);
 
   const handleStatusChange = (index, newStatus) => {
-    setStatus((prevStatus) => ({
-      ...prevStatus,
+    const updatedStatus = {
+      ...status,
       [index]: newStatus,
-    }));
+    };
+    setStatus(updatedStatus);
+    localStorage.setItem("projectStatus", JSON.stringify(updatedStatus));
   };
 
   const handleSearch = (e) => {
