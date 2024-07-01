@@ -1,6 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 
 const AddProject = () => {
+  const [formData, setFormData] = useState({
+    projectTheme: "",
+    reason: "Business",
+    type: "Internal",
+    division: "Filters",
+    department: "Strategy",
+    category: "Quality A",
+    priority: "High",
+    startDate: "",
+    endDate: "",
+    location: "Pune",
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("http://localhost:3000/api/projects", formData);
+      console.log("Project saved:", response.data);
+      // Handle success (e.g., show a success message or redirect)
+    } catch (error) {
+      console.error("Error saving project:", error);
+      // Handle error (e.g., show an error message)
+    }
+  };
+
   return (
     <div className="relative w-fit mx-auto p-6 bg-white shadow-lg rounded-lg">
       <div className="relative mb-6">
@@ -16,7 +46,7 @@ const AddProject = () => {
               alt="left-arrow"
               className="mr-2 h-5 w-5"
             />
-            <span className="text-white text-2xl font-bold px-4 py-2  rounded-md">
+            <span className="text-white text-2xl font-bold px-4 py-2 rounded-md">
               Create Project
             </span>
           </div>
@@ -25,7 +55,7 @@ const AddProject = () => {
           </div>
         </div>
       </div>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="mb-6">
           <label
             htmlFor="projectTheme"
@@ -36,6 +66,8 @@ const AddProject = () => {
           <input
             type="text"
             id="projectTheme"
+            value={formData.projectTheme}
+            onChange={handleChange}
             className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2"
           />
         </div>
@@ -50,6 +82,8 @@ const AddProject = () => {
             </label>
             <select
               id="reason"
+              value={formData.reason}
+              onChange={handleChange}
               className="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2"
             >
               <option>Business</option>
@@ -67,6 +101,8 @@ const AddProject = () => {
             </label>
             <select
               id="type"
+              value={formData.type}
+              onChange={handleChange}
               className="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2"
             >
               <option>Internal</option>
@@ -84,6 +120,8 @@ const AddProject = () => {
             </label>
             <select
               id="division"
+              value={formData.division}
+              onChange={handleChange}
               className="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2"
             >
               <option>Filters</option>
@@ -103,6 +141,8 @@ const AddProject = () => {
             </label>
             <select
               id="department"
+              value={formData.department}
+              onChange={handleChange}
               className="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2"
             >
               <option>Strategy</option>
@@ -122,6 +162,8 @@ const AddProject = () => {
             </label>
             <select
               id="category"
+              value={formData.category}
+              onChange={handleChange}
               className="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2"
             >
               <option>Quality A</option>
@@ -140,6 +182,8 @@ const AddProject = () => {
             </label>
             <select
               id="priority"
+              value={formData.priority}
+              onChange={handleChange}
               className="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2"
             >
               <option>High</option>
@@ -158,6 +202,8 @@ const AddProject = () => {
             <input
               type="date"
               id="startDate"
+              value={formData.startDate}
+              onChange={handleChange}
               className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2"
             />
           </div>
@@ -172,6 +218,8 @@ const AddProject = () => {
             <input
               type="date"
               id="endDate"
+              value={formData.endDate}
+              onChange={handleChange}
               className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2"
             />
           </div>
@@ -185,6 +233,8 @@ const AddProject = () => {
             </label>
             <select
               id="location"
+              value={formData.location}
+              onChange={handleChange}
               className="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2"
             >
               <option>Pune</option>
